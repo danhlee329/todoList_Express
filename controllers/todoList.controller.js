@@ -3,17 +3,23 @@ const validate = require('uuid-validate');
 
 const TodoListClass = require("../models/todoList.model")
 const TaskClass = require("../models/task.model")
-const TODOLIST_ERRORS = require('../models/todoList.error')
 
 const DataSource = require('../dataStore/TempDataSourceClient')
 
 const dataSourceClientInstance = new DataSource();
 
-// TODO: need to apply filtering/slicing/limiting
 function getAll(req,res) {
-    const curItem = dataSourceClientInstance.getAll();
+    const searchString = req.query.searchString;
+    const skip = req.query.skip;
+    const limit = req.query.limit;
 
-    res.status(200).json(curItem)
+    try {
+        const curItem = dataSourceClientInstance.getAll(searchString, skip, limit);
+
+        res.status(200).json(curItem)
+    } catch (e) {
+        res.status(400).json("bad input parameter")
+    }
 }
 
 function getOne(req,res) {
