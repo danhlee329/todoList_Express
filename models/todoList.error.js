@@ -1,4 +1,5 @@
 const TodoListErrorCodes = {
+    UUID_REQUIRED: 'List ID must be a valid UUID',
     NAME_STRING_REQUIRED: 'List Name must be a non-empty string',
     ADD_TASK_TYPE: 'The task must be a type \'Task\'',
     ADD_TASK_UNIQUE: 'A task with the same id or name exists.  Please rename the task.',

@@ -1,17 +1,18 @@
 'use strict'
 
 const _ = require('lodash')
-const uuidV4 = require('uuid/v4');
+const validate = require('uuid-validate');
 const TaskClass = require('./task.model')
 const TODOLIST_ERRORS = require('./todoList.error')
 
 class TodoList {
-    constructor(name, description) {
-        if(!_.trim(name)) {
+    constructor(id, name, description) {
+        if(!validate(id)) {
+            throw new Error(TODOLIST_ERRORS.UUID_REQUIRED)
+        } else if(!_.trim(name)) {
             throw new Error(TODOLIST_ERRORS.NAME_STRING_REQUIRED)
         } else {
-            // TODO: pass ID into contructor (need to check for uniqueness)
-            this.id = uuidV4();
+            this.id = id;
             this.name = name;
             this.description = _.trim(description);
             this.tasks = []
