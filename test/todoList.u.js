@@ -5,7 +5,7 @@ const TodoListClass = require("../models/todoList.model")
 const TaskClass = require("../models/task.model")
 const TODOLIST_ERRORS = require('../models/todoList.error')
 
-describe('++ TEST - Task Class', function() {
+describe('++ TEST - TodoList Class', function() {
     it('--- Create without id', function() {
       expect(() => {
           new TodoListClass();
@@ -49,6 +49,37 @@ describe('++ TEST - Task Class', function() {
         expect(newTodoList.description).to.be.equal(testDesc);
 
         expect(newTodoList.taskList).to.be.empty;
+    });
+
+    it('--- Create with name, description, and task list', function() {
+        const id = uuidV4();
+        const testName = 'Test Name'
+        const testDesc = 'Test Desc'
+        const emptyTaskList = [];
+        const newTodoListEmptyList = new TodoListClass(id, testName, testDesc, emptyTaskList);
+
+        expect(newTodoListEmptyList.taskList).to.be.empty;
+
+        const taskId = uuidV4();
+        const taskTestName = 'Test Name'
+        const validTaskList = [new TaskClass(taskId, taskTestName)];
+        const newTodoListValidList = new TodoListClass(id, testName, testDesc, validTaskList);
+
+        expect(newTodoListValidList.taskList).to.deep.equal(validTaskList);
+
+        expect(() => {
+            new TodoListClass(new TodoListClass(id, testName, testDesc, {}));
+        }).to.throw(TODOLIST_ERRORS.TASK_LIST_TYPE);
+
+        expect(() => {
+            new TodoListClass(new TodoListClass(id,
+                                                testName,
+                                                testDesc, [
+                                                    {
+                                                        blah: '123'
+                                                    }
+                                                ]));
+        }).to.throw(TODOLIST_ERRORS.TASK_LIST_INIT_ERROR);
     });
 
     it('--- Add Task', function() {

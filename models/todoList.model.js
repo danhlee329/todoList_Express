@@ -6,16 +6,30 @@ const TaskClass = require('./task.model')
 const TODOLIST_ERRORS = require('./todoList.error')
 
 class TodoList {
-    constructor(id, name, description) {
+    constructor(id, name, description, tasks) {
         if(!validate(id)) {
             throw new Error(TODOLIST_ERRORS.UUID_REQUIRED)
         } else if(!_.trim(name)) {
             throw new Error(TODOLIST_ERRORS.NAME_STRING_REQUIRED)
+        } else if(!(_.isUndefined(description) || _.isNull(description)) && !_.isString(description)) {
+            throw new Error(TODOLIST_ERRORS.DESCRIPTION_STRING_TYPE)
+        } else if(!(_.isUndefined(tasks) || _.isNull(tasks)) && !_.isArray(tasks)) {
+            throw new Error(TODOLIST_ERRORS.TASK_LIST_TYPE)
         } else {
             this.id = id;
             this.name = name;
             this.description = _.trim(description);
-            this.tasks = []
+            let processList = (_.isUndefined(tasks) || _.isNull(tasks)) ? [] : tasks;
+
+            try {
+                // TODO: move this to controller
+                const taskList = processList.map((item) => {
+                    return new TaskClass(item.id, item.name, item.completed);
+                })
+                this.tasks = taskList;
+            } catch (e) {
+                throw new Error(TODOLIST_ERRORS.TASK_LIST_INIT_ERROR);
+            }
         }
     }
 
