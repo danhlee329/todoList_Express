@@ -26,6 +26,15 @@ class TodoList {
         if(!(newTask instanceof TaskClass)) {
             throw new Error(TODOLIST_ERRORS.ADD_TASK_TYPE)
         } else {
+            // TODO: check if id is a truthy string
+            let curTask = _.find(this.tasks, (o) => {
+                return o.id === newTask.id || o.name === newTask.name;
+            })
+
+            if(curTask) {
+                throw new Error(TODOLIST_ERRORS.ADD_TASK_UNIQUE)
+            }
+
             this.tasks.push(newTask);
         }
     }
