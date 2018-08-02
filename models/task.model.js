@@ -14,4 +14,10 @@ class Task {
             this.completed = false;
         }
     }
+
+    setComplete() {
+        this.completed = true;
+    }
 }
+
+module.exports = Task;
