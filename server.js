@@ -1,9 +1,19 @@
 "use strict";
 
 const express = require('express');
+const bodyParser = require('body-parser');
+const routes = require('./routes/routes')
 
 const root = './';
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(root));
+
+// TODO: add cors support
+
+app.use('/api', routes );
 
 app.get('*', (req, res) => {
     res.sendFile(`baseHomePage.html`, { root: root });
