@@ -66,6 +66,10 @@ describe('++ TEST - Task Class', function() {
         const curTask = newTodoList.taskList[0];
 
         expect(curTask).to.be.equal(newTask);
+
+        expect(() => {
+            newTodoList.addTask(newTask);
+        }).to.throw(TODOLIST_ERRORS.ADD_TASK_UNIQUE);
     });
 
     it('--- Complete Task', function() {
