@@ -3,11 +3,12 @@
 const _ = require('lodash')
 const uuidV4 = require('uuid/v4');
 const TaskClass = require('./task.model')
+const TODOLIST_ERRORS = require('./todoList.error')
 
 class TodoList {
     constructor(name, description) {
         if(!_.trim(name)) {
-            throw new Error('Name must be a non-empty string')
+            throw new Error(TODOLIST_ERRORS.NAME_STRING_REQUIRED)
         } else {
             // TODO: pass ID into contructor (need to check for uniqueness)
             this.id = uuidV4();
@@ -17,23 +18,30 @@ class TodoList {
         }
     }
 
+    get taskList() {
+        return this.tasks;
+    }
+
     addTask(newTask) {
         if(!(newTask instanceof TaskClass)) {
-            throw new Error('Name must be a non-empty string')
+            throw new Error(TODOLIST_ERRORS.ADD_TASK_TYPE)
         } else {
             this.tasks.push(newTask);
         }
     }
 
     completeTask(id) {
-        if(!_trim(id)) {
-            throw new Error('Task ID must be a non-empty string');
+        if(!_.trim(id)) {
+            throw new Error(TODOLIST_ERRORS.COMPLETE_ID);
         }
 
-        try {
-            let curTask = _.find(this.tasks, (o) => {
-                return o.id === id;
-            })
+        let curTask = _.find(this.tasks, (o) => {
+            return o.id === id;
+        })
+
+        if(!curTask) {
+            throw new Error(TODOLIST_ERRORS.TASK_NOT_FOUND)
+        } else {
             curTask.setComplete();
 
             _.remove(this.tasks, (o) => {
@@ -41,8 +49,6 @@ class TodoList {
             })
 
             this.tasks.push(curTask);
-        } catch (e) {
-            // TODO: handle error here
         }
     }
 }

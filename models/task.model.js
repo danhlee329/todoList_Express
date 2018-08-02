@@ -16,6 +16,10 @@ class Task {
         }
     }
 
+    get isCompleted() {
+        return this.completed;
+    }
+
     setComplete() {
         this.completed = true;
     }
