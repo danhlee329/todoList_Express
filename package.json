@@ -1,0 +1,14 @@
+{
+  "name": "todolistexpress",
+  "version": "1.0.0",
+  "description": "A simple todo list API service (using local-mocked data)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Lee",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
