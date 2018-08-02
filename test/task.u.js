@@ -48,7 +48,7 @@ describe('++ TEST - Task Class', function() {
 
         expect(newTask.name).to.be.equal(testName);
 
-        expect(newTask.completed).to.be.equal(completed);
+        expect(newTask.isCompleted).to.be.equal(completed);
       });
 
       it('--- Create (Completed)', function() {
@@ -64,6 +64,18 @@ describe('++ TEST - Task Class', function() {
 
         expect(newTask.name).to.be.equal(testName);
 
-        expect(newTask.completed).to.be.equal(completed);
+        expect(newTask.isCompleted).to.be.equal(completed);
+      });
+
+      it('--- Set Complete Method', function() {
+        const id = uuidV4();
+        const testName = 'Test Name'
+        const newTask = new TaskClass(id, testName, false);
+
+        newTask.setComplete(true)
+        expect(newTask.isCompleted).to.be.equal(true);
+
+        newTask.setComplete(false)
+        expect(newTask.isCompleted).to.be.equal(false);
       });
 });

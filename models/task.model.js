@@ -24,8 +24,8 @@ class Task {
         return this.completed;
     }
 
-    setComplete() {
-        this.completed = true;
+    setComplete(isComplete) {
+        this.completed = isComplete;
     }
 }
 

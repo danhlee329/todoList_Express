@@ -37,13 +37,27 @@ class TodoList {
         return this.tasks;
     }
 
+    containsTask(taskId, taskName) {
+        // TODO: compare method to task model class
+        const curTask = _.find(this.tasks, (o) => {
+            return o.id === taskId && o.name === taskName;
+        })
+        return !curTask === false;
+    }
+    containsTaskById(taskId) {
+        // TODO: compare method to task model class
+        const curTask = _.find(this.tasks, (o) => {
+            return o.id === taskId;
+        })
+        return !curTask === false;
+    }
     addTask(newTask) {
         if(!(newTask instanceof TaskClass)) {
             throw new Error(TODOLIST_ERRORS.ADD_TASK_TYPE)
         } else {
-            // TODO: check if id is a truthy string
+            // TODO: compare method to task model class
             let curTask = _.find(this.tasks, (o) => {
-                return o.id === newTask.id || o.name === newTask.name;
+                return o.id === newTask.id && o.name === newTask.name;
             })
 
             if(curTask) {
@@ -54,22 +68,22 @@ class TodoList {
         }
     }
 
-    completeTask(id) {
-        if(!_.trim(id)) {
+    completeTask(taskId, isComplete) {
+        if(!_.trim(taskId)) {
             throw new Error(TODOLIST_ERRORS.COMPLETE_ID);
         }
 
         let curTask = _.find(this.tasks, (o) => {
-            return o.id === id;
+            return o.id === taskId;
         })
 
         if(!curTask) {
             throw new Error(TODOLIST_ERRORS.TASK_NOT_FOUND)
         } else {
-            curTask.setComplete();
+            curTask.setComplete(isComplete);
 
             _.remove(this.tasks, (o) => {
-                return o.id === id;
+                return o.id === taskId;
             })
 
             this.tasks.push(curTask);

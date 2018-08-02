@@ -117,7 +117,57 @@ describe('++ TEST - TodoList Class', function() {
         }).to.throw(TODOLIST_ERRORS.ADD_TASK_UNIQUE);
     });
 
-    it('--- Complete Task', function() {
+    it('--- Check if Contains Task by ID', function() {
+        const id = uuidV4();
+        const testName = 'Test Name'
+        const testDesc = 'Test Desc'
+        const newTodoList = new TodoListClass(id, testName, testDesc);
+
+        const taskId = uuidV4();
+        const taskTestName = 'Test Name'
+        const taskIsCompleted = true;
+
+        const newTask = new TaskClass(taskId, taskTestName, taskIsCompleted);
+
+        expect(() => {
+            newTodoList.addTask(newTask);
+        }).to.not.throw(TODOLIST_ERRORS.ADD_TASK_TYPE);
+
+        const containsTaskTrue = newTodoList.containsTaskById(taskId);
+
+        expect(containsTaskTrue).to.be.equal(true);
+
+        const containsTaskFalse = newTodoList.containsTask(id);
+
+        expect(containsTaskFalse).to.be.equal(false);
+    });
+
+    it('--- Check if Contains Task by ID and Name', function() {
+        const id = uuidV4();
+        const testName = 'Test Name'
+        const testDesc = 'Test Desc'
+        const newTodoList = new TodoListClass(id, testName, testDesc);
+
+        const taskId = uuidV4();
+        const taskTestName = 'Test Name'
+        const taskIsCompleted = true;
+
+        const newTask = new TaskClass(taskId, taskTestName, taskIsCompleted);
+
+        expect(() => {
+            newTodoList.addTask(newTask);
+        }).to.not.throw(TODOLIST_ERRORS.ADD_TASK_TYPE);
+
+        const containsTaskTrue = newTodoList.containsTask(taskId, taskTestName);
+
+        expect(containsTaskTrue).to.be.equal(true);
+
+        const containsTaskFalse = newTodoList.containsTask(id, taskTestName);
+
+        expect(containsTaskFalse).to.be.equal(false);
+    });
+
+    it('--- Complete Task Flag', function() {
         const id = uuidV4();
         const testName = 'Test Name'
         const testDesc = 'Test Desc'
@@ -127,7 +177,7 @@ describe('++ TEST - TodoList Class', function() {
         const taskTestName = 'Test Name'
         const taskIsCompleted = false;
 
-        const newTask = new TaskClass(taskId, taskTestName, false);
+        const newTask = new TaskClass(taskId, taskTestName, taskIsCompleted);
 
         expect(() => {
             newTodoList.completeTask();
@@ -139,10 +189,16 @@ describe('++ TEST - TodoList Class', function() {
 
         newTodoList.addTask(newTask);
 
-        newTodoList.completeTask(newTask.id);
+        newTodoList.completeTask(newTask.id, true);
 
-        const curTask = newTodoList.taskList[0];
+        const curTaskSetToTrue = newTodoList.taskList[0];
 
-        expect(curTask.isCompleted).to.be.equal(true);
+        expect(curTaskSetToTrue.isCompleted).to.be.equal(true);
+
+        newTodoList.completeTask(newTask.id, false);
+
+        const curTaskSetToFalse = newTodoList.taskList[0];
+
+        expect(curTaskSetToFalse.isCompleted).to.be.equal(false);
     });
 });
