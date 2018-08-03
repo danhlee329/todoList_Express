@@ -22,4 +22,8 @@ router.delete('/lists/:todoListId/tasks/:taskId', (req, res) => {
     todoController.deleteTaskFromTodoList(req, res);
 });
 
+router.delete('/lists/:todoListId', (req, res) => {
+    todoController.deleteTodoList(req, res)
+});
+
 module.exports = router;

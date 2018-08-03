@@ -166,11 +166,29 @@ function deleteTaskFromTodoList(req,res) {
     }
 }
 
+function deleteTodoList(req,res) {
+    const listId = req.params.todoListId;
+
+    const curItem = dataSourceClientInstance.getOne(listId);
+
+    if(!curItem) {
+        res.status(404).json('list not found')
+    } else {
+        try {
+            dataSourceClientInstance.deleteItem(listId);
+            res.status(204).json("list deleted")
+        } catch (e) {
+            res.status(400).json('invalid input, object invalid')
+        }
+    }
+}
+
 module.exports = {
     getAll,
     getOne,
     create,
     addTask,
     setCompleteTaskFlag,
-    deleteTaskFromTodoList
+    deleteTaskFromTodoList,
+    deleteTodoList
 }
