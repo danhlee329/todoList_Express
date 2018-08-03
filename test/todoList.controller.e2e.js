@@ -7,9 +7,9 @@ chai.use(chaiHttp);
 const url = '/api/lists'
 
 describe('++ TODO LIST Routes', function() {
-    const todoListpayload = {
+    const todoListpayload1111 = {
       id: "d290f1ee-6c54-4b01-90e6-d701748f0851",
-      name: "Home 1113 blahblah",
+      name: "Home 1111 blahblah",
       description: "The list of things that need to be_done_at home jamon\n",
       tasks: [
         {
@@ -19,7 +19,18 @@ describe('++ TODO LIST Routes', function() {
         }
       ]
     }
-
+    const todoListpayload2222 = {
+      id: "d290f1ee-6c54-4b01-90e6-d701748f0852",
+      name: "Home 2222 blahblah",
+      description: "The list of things that need to be_done_at home jamon\n",
+      tasks: [
+        {
+          id: "0e2ac84f-f723-4f24-878b-44e63e7ae580",
+          name: "mow the yard",
+          completed: true
+        }
+      ]
+    }
     const todoListpayloadInvalid = {
       id: "d290f1ee-6c54-4b01-90e6-d701748f0851",
       name: "Home 1113 blahblah",
@@ -56,7 +67,7 @@ describe('++ TODO LIST Routes', function() {
       chai.request(server)
         .post(url)
         .set('Content-Type', 'application/json')
-        .send(todoListpayload)
+        .send(todoListpayload1111)
         .end(function(err, rs){
           expect(rs.status).to.be.equal(201);
 
@@ -71,7 +82,7 @@ describe('++ TODO LIST Routes', function() {
       chai.request(server)
         .post(url)
         .set('Content-Type', 'application/json')
-        .send(todoListpayload)
+        .send(todoListpayload1111)
         .end(function(err, rs){
           expect(rs.status).to.be.equal(409);
 
@@ -109,10 +120,98 @@ describe('++ TODO LIST Routes', function() {
           done();
         });
     });
-// TODO: add checks for querystring
+
+    it('--- Check querystring errors (skip) (GET)', function(done) {
+      chai.request(server)
+        .get(url + '?skip=asd')
+        .end(function(err, rs){
+          expect(rs.status).to.be.equal(400);
+
+          var result = rs.body;
+          expect(result).to.be.equal('bad input parameter');
+
+          done();
+        });
+    });
+
+    it('--- Check querystring result (skip) (GET)', function(done) {
+      chai.request(server)
+          .post(url)
+          .set('Content-Type', 'application/json')
+          .send(todoListpayload2222)
+          .end(function(err, rs){
+            chai.request(server)
+                .get(url + '?skip=1')
+                .end(function(err, rs){
+                  expect(rs.status).to.be.equal(200);
+
+                  var result = rs.body;
+                  expect(result.length).to.be.equal(1);
+                  expect(result[0].id).to.be.equal(todoListpayload2222.id);
+
+                  done();
+            });
+      });
+    });
+
+    it('--- Check querystring errors (limit) (GET)', function(done) {
+      chai.request(server)
+        .get(url + '?limit=asd')
+        .end(function(err, rs){
+          expect(rs.status).to.be.equal(400);
+
+          var result = rs.body;
+          expect(result).to.be.equal('bad input parameter');
+
+          done();
+        });
+    });
+
+    it('--- Check querystring result (limit) (GET)', function(done) {
+      chai.request(server)
+          .get(url + '?limit=1')
+          .end(function(err, rs){
+            expect(rs.status).to.be.equal(200);
+
+            var result = rs.body;
+            expect(result.length).to.be.equal(1);
+            expect(result[0].id).to.be.equal(todoListpayload1111.id);
+
+            done();
+      });
+    });
+
+    it('--- Check querystring result (searchString "1111") (GET)', function(done) {
+      chai.request(server)
+          .get(url + '?searchString=1111')
+          .end(function(err, rs){
+            expect(rs.status).to.be.equal(200);
+
+            var result = rs.body;
+            expect(result.length).to.be.equal(1);
+            expect(result[0].id).to.be.equal(todoListpayload1111.id);
+
+            done();
+      });
+    });
+
+    it('--- Check querystring result (searchString "2222") (GET)', function(done) {
+      chai.request(server)
+          .get(url + '?searchString=2222')
+          .end(function(err, rs){
+            expect(rs.status).to.be.equal(200);
+
+            var result = rs.body;
+            expect(result.length).to.be.equal(1);
+            expect(result[0].id).to.be.equal(todoListpayload2222.id);
+
+            done();
+      });
+    });
+
     it('--- Get One TodoList (GET)', function(done) {
       chai.request(server)
-        .get(url + `/${todoListpayload.id}`)
+        .get(url + `/${todoListpayload1111.id}`)
         .end(function(err, rs){
 
           expect(rs.status).to.be.equal(200);
@@ -120,7 +219,7 @@ describe('++ TODO LIST Routes', function() {
           var result = rs.body;
 
           expect(result).to.not.be.empty;
-          expect(result.id).to.be.equal(todoListpayload.id);
+          expect(result.id).to.be.equal(todoListpayload1111.id);
 
           done();
         });
@@ -158,7 +257,7 @@ describe('++ TODO LIST Routes', function() {
     });
     it('--- Add Task to TodoList (POST)', function(done) {
       chai.request(server)
-        .post(url + `/${todoListpayload.id}` + `/tasks`)
+        .post(url + `/${todoListpayload1111.id}` + `/tasks`)
         .set('Content-Type', 'application/json')
         .send(taskPayLoadFalse)
         .end(function(err, rs){
@@ -174,7 +273,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Add Same Task to TodoList (POST)', function(done) {
       chai.request(server)
-        .post(url + `/${todoListpayload.id}` + `/tasks`)
+        .post(url + `/${todoListpayload1111.id}` + `/tasks`)
         .set('Content-Type', 'application/json')
         .send(taskPayLoadFalse)
         .end(function(err, rs){
@@ -190,7 +289,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Add Invalid Task to TodoList (POST)', function(done) {
       chai.request(server)
-        .post(url + `/${todoListpayload.id}` + `/tasks`)
+        .post(url + `/${todoListpayload1111.id}` + `/tasks`)
         .set('Content-Type', 'application/json')
         .send(taskPayLoad1Invalid)
         .end(function(err, rs){
@@ -224,7 +323,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Attempt to Set Complete Flag for Unavailable Task in List (POST)', function(done) {
       chai.request(server)
-        .post(url + `/${todoListpayload.id}` + `/tasks/${unavailableTaskId}/complete`)
+        .post(url + `/${todoListpayload1111.id}` + `/tasks/${unavailableTaskId}/complete`)
         .set('Content-Type', 'application/json')
         .send({
           completed: true
@@ -242,7 +341,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Set Complete Flag for Task (POST)', function(done) {
       chai.request(server)
-          .post(url + `/${todoListpayload.id}` + `/tasks/${taskPayLoadFalse.id}/complete`)
+          .post(url + `/${todoListpayload1111.id}` + `/tasks/${taskPayLoadFalse.id}/complete`)
           .set('Content-Type', 'application/json')
           .send(completedPayLoad)
           .end(function(err, rs){
@@ -275,7 +374,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Delete Task from TodoList (DELETE)', function(done) {
       chai.request(server)
-          .delete(url + `/${todoListpayload.id}` + `/tasks/${taskPayLoadFalse.id}`)
+          .delete(url + `/${todoListpayload1111.id}` + `/tasks/${taskPayLoadFalse.id}`)
           .send({
             completed: true
           })
@@ -289,7 +388,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Delete Same Task from TodoList (DELETE)', function(done) {
       chai.request(server)
-          .delete(url + `/${todoListpayload.id}` + `/tasks/${taskPayLoadFalse.id}`)
+          .delete(url + `/${todoListpayload1111.id}` + `/tasks/${taskPayLoadFalse.id}`)
           .send({
             completed: true
           })
@@ -323,7 +422,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Delete TodoList (DELETE)', function(done) {
       chai.request(server)
-          .delete(url + `/${todoListpayload.id}`)
+          .delete(url + `/${todoListpayload1111.id}`)
           .send({
             completed: true
           })
@@ -337,7 +436,7 @@ describe('++ TODO LIST Routes', function() {
 
     it('--- Delete Same TodoList (DELETE)', function(done) {
       chai.request(server)
-          .delete(url + `/${todoListpayload.id}`)
+          .delete(url + `/${todoListpayload1111.id}`)
           .send({
             completed: true
           })
