@@ -4,7 +4,7 @@ This todo list api service provides basic operations on managing a todo list.  T
 This is a NodeJS application, which will require the latest Long Term Support (LTS) version of Node install on your machine (latest development efforts on v8.11.3). Once installed, clone this project into a local directory.  Once in the local directory, run `npm install` to install all dependencies.
 
 # Build and Test
-To run the app, run `npm start` in the console in the same directory (currently running on http://localhost:8080).
+To run the app, run `npm start` in the console in the same directory (currently runs locally on http://localhost:8080).
 
 To run the test, run `npm test` in the console in the same directory.
 
