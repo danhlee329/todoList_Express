@@ -7,3 +7,6 @@ This is a NodeJS application, which will require the latest Long Term Suuport (L
 To run the app, run `npm start` in the console in the same directory (currently running on http://localhost:8080).
 
 To run the test, run `npm test` in the console in the same directory.
+
+# Postman Files
+Postman files are provided for local development (both collection and environment).
