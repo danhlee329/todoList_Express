@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./routes/routes')
 
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(root));
 
-// TODO: add cors support
+app.use(cors());
 
 app.use('/api', routes );
 
