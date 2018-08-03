@@ -1,0 +1,214 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TodoList API Calls",
+		"_postman_id": "10c4933b-297b-0f64-d6ca-52fcb8bde6f2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All TodoLists",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All TodoLists (Filter - searchString)",
+			"request": {
+				"url": {
+					"raw": "{{BaseUrl}}/api/lists?searchString=e%20j",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "searchString",
+							"value": "e%20j",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All TodoLists (Filter - skip)",
+			"request": {
+				"url": {
+					"raw": "{{BaseUrl}}/api/lists?skip=2",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "2",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All TodoLists (Filter - limit)",
+			"request": {
+				"url": {
+					"raw": "{{BaseUrl}}/api/lists?limit=2",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get One TodoList",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists/{{TodoListId}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create New TodoList",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"d290f1ee-6c54-4b01-90e6-d701748f0851\",\r\n  \"name\": \"Home 1113 blahblah\",\r\n  \"description\": \"The list of things that need to be_done_at home jamon\\n\",\r\n  \"tasks\": [\r\n    {\r\n      \"id\": \"0e2ac84f-f723-4f24-878b-44e63e7ae580\",\r\n      \"name\": \"mow the yard\",\r\n      \"completed\": true\r\n    }\r\n  ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Task to TodoList",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists/{{TodoListId}}/tasks",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"0e2ac84f-f723-4f24-878b-44e63e7ae585\",\r\n  \"name\": \"mow the yard\",\r\n  \"completed\": true\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Set Complete Flag for Task in TodoList",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists/{{TodoListId}}/tasks/{{TaskId}}/complete",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"completed\": false\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task in TodoList",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists/{{TodoListId}}/tasks/{{TaskId}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete TodoList",
+			"request": {
+				"url": "{{BaseUrl}}/api/lists/{{TodoListId}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
