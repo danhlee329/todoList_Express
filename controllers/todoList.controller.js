@@ -135,7 +135,7 @@ function setCompleteTaskFlag(req,res) {
             curItem.completeTask(taskId, reqBody.completed);
 
             dataSourceClientInstance.updateList(curItem);
-            res.status(201).json("item created")
+            res.status(201).json("item updated")
         } catch (e) {
             res.status(400).json('invalid input, object invalid')
         }
