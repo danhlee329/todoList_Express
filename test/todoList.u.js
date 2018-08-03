@@ -201,4 +201,32 @@ describe('++ TEST - TodoList Class', function() {
 
         expect(curTaskSetToFalse.isCompleted).to.be.equal(false);
     });
+
+    it('--- Delete Task by ID', function() {
+        const id = uuidV4();
+        const testName = 'Test Name'
+        const testDesc = 'Test Desc'
+        const newTodoList = new TodoListClass(id, testName, testDesc);
+
+        const taskId = uuidV4();
+        const taskTestName = 'Test Name'
+        const taskIsCompleted = true;
+
+        const newTask = new TaskClass(taskId, taskTestName, taskIsCompleted);
+
+        expect(() => {
+            newTodoList.addTask(newTask);
+        }).to.not.throw(TODOLIST_ERRORS.ADD_TASK_TYPE);
+
+        const containsTaskTrue = newTodoList.containsTask(taskId, taskTestName);
+
+        expect(containsTaskTrue).to.be.equal(true);
+
+        newTodoList.deleteTaskById(taskId, taskTestName);
+
+        const containsTaskFalse = newTodoList.containsTask(taskId, taskTestName);
+
+        expect(containsTaskFalse).to.be.equal(false);
+    });
+
 });

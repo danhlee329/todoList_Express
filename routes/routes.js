@@ -18,4 +18,8 @@ router.post('/lists/:todoListId/tasks/:taskId/complete', (req, res) => {
     todoController.setCompleteTaskFlag(req, res);
 });
 
+router.delete('/lists/:todoListId/tasks/:taskId', (req, res) => {
+    todoController.deleteTaskFromTodoList(req, res);
+});
+
 module.exports = router;

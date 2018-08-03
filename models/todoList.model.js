@@ -51,6 +51,12 @@ class TodoList {
         })
         return !curTask === false;
     }
+    deleteTaskById(taskId) {
+        // TODO: compare method to task model class
+        const curTask = _.remove(this.tasks, (o) => {
+            return o.id === taskId;
+        })
+    }
     addTask(newTask) {
         if(!(newTask instanceof TaskClass)) {
             throw new Error(TODOLIST_ERRORS.ADD_TASK_TYPE)

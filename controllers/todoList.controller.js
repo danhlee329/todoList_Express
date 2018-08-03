@@ -142,11 +142,35 @@ function setCompleteTaskFlag(req,res) {
     }
 }
 
+function deleteTaskFromTodoList(req,res) {
+    const listId = req.params.todoListId;
+    const taskId = req.params.taskId;
+
+    const curItem = dataSourceClientInstance.getOne(listId);
+
+    if(!curItem) {
+        res.status(404).json('list not found')
+    } else {
+        try {
+            if(!curItem.containsTaskById(taskId)) {
+                res.status(404).json('task not found')
+            }
+
+            curItem.deleteTaskById(taskId);
+
+            dataSourceClientInstance.updateList(curItem);
+            res.status(204).json("task deleted")
+        } catch (e) {
+            res.status(400).json('invalid input, object invalid')
+        }
+    }
+}
 
 module.exports = {
     getAll,
     getOne,
     create,
     addTask,
-    setCompleteTaskFlag
+    setCompleteTaskFlag,
+    deleteTaskFromTodoList
 }
