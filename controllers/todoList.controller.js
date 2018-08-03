@@ -9,9 +9,17 @@ const DataSource = require('../dataStore/TempDataSourceClient')
 const dataSourceClientInstance = new DataSource();
 
 function getAll(req,res) {
-    const searchString = req.query.searchString;
-    const skip = req.query.skip;
-    const limit = req.query.limit;
+    Object.getOwnPropertyNames(req.query).forEach(prop => {
+        if(!(prop === 'searchString' ||
+            prop === 'skip' ||
+            prop === 'limit')) res.status(400).json('bad input parameter')
+    });
+
+    const {
+        searchString,
+        skip,
+        limit
+     } = req.query;
 
     try {
         const curItem = dataSourceClientInstance.getAll(searchString, skip, limit);
