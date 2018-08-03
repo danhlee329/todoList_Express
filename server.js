@@ -15,8 +15,12 @@ app.use(express.static(root));
 
 app.use('/api', routes );
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(`baseHomePage.html`, { root: root });
+});
+
+app.get('*', (req, res) => {
+    res.status(404).json("not found")
 });
 
 var port = 8080;
